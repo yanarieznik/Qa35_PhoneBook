@@ -1,6 +1,6 @@
 import manager.ApplicationManager;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
+
 import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeSuite;
 
