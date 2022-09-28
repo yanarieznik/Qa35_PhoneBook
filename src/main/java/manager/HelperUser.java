@@ -5,10 +5,13 @@ import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.time.Duration;
 import java.util.List;
 
-public class HelperUser extends HelperBase{
+public class HelperUser extends HelperBase {
 
 
     public HelperUser(WebDriver wd) {
@@ -26,25 +29,17 @@ public class HelperUser extends HelperBase{
 
     }
 
-public void openLpginRegform(){
+    public void openLpginRegform() {
 
-    WebElement loginTab = wd.findElement(By.xpath("//a[@href='/login']"));
-    loginTab.click();
-
-
-}
-
-public void fillLoginRegistrationForm(String email,String password){
-   type(By.xpath("//input[@placeholder='Email']"),email);
-   type(By.xpath("//input[@placeholder='Password']"),password);
+        WebElement loginTab = wd.findElement(By.xpath("//a[@href='/login']"));
+        loginTab.click();
 
 
+    }
 
-
-
-
-
-
+    public void fillLoginRegistrationForm(String email, String password) {
+        type(By.xpath("//input[@placeholder='Email']"), email);
+        type(By.xpath("//input[@placeholder='Password']"), password);
 
 
 //    WebElement inputEmail = wd.findElement(By.xpath("//input[@placeholder='Email']"));
@@ -59,49 +54,57 @@ public void fillLoginRegistrationForm(String email,String password){
 //    inputPassword.clear();
 //    inputPassword.sendKeys(password);
 
-}
+    }
 
     public void fillLoginRegistrationForm(User user) {
         type(By.xpath("//input[@placeholder='Email']"), user.getEmail());
-        type(By.xpath("//input[@placeholder='Password']"),user.getPassword());
+        type(By.xpath("//input[@placeholder='Password']"), user.getPassword());
     }
 
 
+    public void submitLogin() {
 
+        WebElement loginButton = wd.findElement(By.xpath("//*[text()=' Login']"));
+        loginButton.click();
 
-
-    public void submitLogin(){
-
-    WebElement loginButton = wd.findElement(By.xpath("//*[text()=' Login']"));
-    loginButton.click();
-
-}
+    }
 
     public boolean isAlertPresent() {
-      Alert alert= wd.switchTo().alert();
-      if(alert==null){
-        return false;
+        Alert alert = wd.switchTo().alert();
+        if (alert == null) {
+            return false;
 
-      }else{
-          return true;
-      }
-
-
+        } else {
+            return true;
+        }
 
 
     }
 
     public boolean isErroeWrongFormat() {
-Alert alert = wd.switchTo().alert();
-String errorText =alert.getText();
+        Alert alert = wd.switchTo().alert();
+        String errorText = alert.getText();
         System.out.println(errorText);
         // click  Ok
         alert.accept();
         //click cancel
-       // alert.dismiss();
-       //type
-       // alert.sendKeys("helllo");
+        // alert.dismiss();
+        //type
+        // alert.sendKeys("helllo");
         return errorText.contains("Wrong email or password format");
 
     }
+
+    public void submitRegistration() {
+        WebElement regButton = wd.findElement(By.xpath("//*[text()=' Registration']"));
+        regButton.click();
+    }
 }
+
+//    public boolean isButtonPresent() {
+//
+//       WebElement button = wd.findElement(By.xpath("//a[@href='/contacts']")) ;
+//
+//    }
+//}
+
