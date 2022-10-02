@@ -99,12 +99,33 @@ public class HelperUser extends HelperBase {
         WebElement regButton = wd.findElement(By.xpath("//*[text()=' Registration']"));
         regButton.click();
     }
+
+    public boolean isNotContactsHere() {
+
+        return new WebDriverWait(wd, Duration.ofSeconds(5))
+                .until(ExpectedConditions
+                        .textToBePresentInElement(wd.findElement(By.cssSelector("div.contact-page_message__2qafk>h1")), "No Contacts here!"));
+
+    }
+
+
+    public boolean isAlertWithErrorPresent(String message) {
+        Alert alert = new WebDriverWait(wd, Duration.ofSeconds(5))
+                .until(ExpectedConditions.alertIsPresent());
+        if(alert != null && alert.getText().contains(message)){
+            alert.accept();
+            return true;
+        }
+        return false;
+    }
+
+    public void login(User user) {
+        openLpginRegform();
+        fillLoginRegistrationForm(user);
+        submitLogin();
+
+    }
 }
 
-//    public boolean isButtonPresent() {
-//
-//       WebElement button = wd.findElement(By.xpath("//a[@href='/contacts']")) ;
-//
-//    }
-//}
+
 
