@@ -2,8 +2,11 @@ package manager;
 
 import models.Contact;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+
+import java.util.List;
 
 public class HelperContact extends HelperBase {
 
@@ -11,33 +14,62 @@ public class HelperContact extends HelperBase {
     public HelperContact(WebDriver wd) {
         super(wd);
     }
+    public void openContactForm() {
+        click(By.cssSelector("a[href='/add']"));
+    }
 
-    public void fillAddForm(Contact contact){
-        type(By.xpath("//input[@placeholder=Name]"),contact.getName());
-        type(By.xpath("//input[@placeholder=Last Name]"),contact.getLastName());
-        type(By.xpath("//input[@placeholder=Phone]"),contact.getPhone());
-        type(By.xpath("//input[@placeholder=email]"),contact.getEmail());
-        type(By.xpath("//input[@placeholder=Address]"),contact.getAddress());
-        type(By.xpath("//input[@placeholder=description]"),contact.getDescription());
+    public void fillContactAllForm(Contact contact) {
+        type(By.cssSelector("[placeholder='Name']"), contact.getName());
+        type(By.cssSelector("[placeholder='Last Name']"), contact.getLastName());
+        type(By.cssSelector("[placeholder='Phone']"), contact.getPhone());
+        type(By.cssSelector("[placeholder='email']"), contact.getEmail());
+        type(By.cssSelector("[placeholder='Address']"), contact.getAddress());
+        type(By.cssSelector("[placeholder='description']"), contact.getDescription());
+    }
 
+    public void saveContact() {
+        click(By.xpath("//button/b"));
+    }
 
-
-
-
-
-
+    public void saveContactWithTab() {
+        WebElement element = wd.findElement(By.cssSelector(".add_form__2rsm2 button"));
+        element.sendKeys(Keys.TAB);
+        pause(500);
+        element.sendKeys(Keys.ENTER);
 
     }
 
-
-    public void openAddForm() {
-        WebElement add = wd.findElement(By.className("active"));
-        add.click();
+    public void fillContactRequiredForm(Contact contact) {
+        type(By.cssSelector("[placeholder='Name']"), contact.getName());
+        type(By.cssSelector("[placeholder='Last Name']"), contact.getLastName());
+        type(By.cssSelector("[placeholder='Phone']"), contact.getPhone());
+        type(By.cssSelector("[placeholder='email']"), contact.getEmail());
+        type(By.cssSelector("[placeholder='Address']"), contact.getAddress());
     }
 
 
-    public void clicButtonSave() {
-        WebElement save = wd.findElement(By.xpath("//*[text()='Save']"));
-        save.click();
+    public boolean isContactAddedByName(String name) {
+        List<WebElement> list = wd.findElements(By.cssSelector("h2"));
+
+        for (WebElement el : list) {
+            if (el.getText().equals(name))
+                return true;
+        }
+        return false;
+
+    }
+
+    public boolean isContactAddedByPhone(String phone) {
+
+        List<WebElement> list = wd.findElements(By.cssSelector("h3"));
+
+        for (WebElement el : list) {
+            if (el.getText().equals(phone))
+                return true;
+        }
+        return false;
+    }
+    public boolean isAddPageStillDisplayed() {
+        return  wd.findElements(By.cssSelector("a.active[href='/add']")).size()>0;
     }
 }

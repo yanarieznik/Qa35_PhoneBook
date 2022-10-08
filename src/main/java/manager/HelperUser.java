@@ -12,102 +12,94 @@ import java.time.Duration;
 import java.util.List;
 
 public class HelperUser extends HelperBase {
-
-
     public HelperUser(WebDriver wd) {
         super(wd);
     }
 
-    public boolean isLogged() {
 
+    public boolean isLogged() {
+        // //button[text()='Sign Out']
         List<WebElement> list = wd.findElements(By.xpath("//button[text()='Sign Out']"));
         return list.size() > 0;
+
     }
 
     public void logout() {
+//       WebElement element = wd.findElement(By.xpath("//button[text()='Sign Out']"));
+//       element.click();
         wd.findElement(By.xpath("//button[text()='Sign Out']")).click();
-
     }
 
-    public void openLpginRegform() {
-
+    public void openLoginRegistrationForm(){
         WebElement loginTab = wd.findElement(By.xpath("//a[@href='/login']"));
         loginTab.click();
-
-
     }
 
-    public void fillLoginRegistrationForm(String email, String password) {
-        type(By.xpath("//input[@placeholder='Email']"), email);
-        type(By.xpath("//input[@placeholder='Password']"), password);
+    public void fillLoginRegistrationForm(String email,String password){
+        type(By.xpath("//input[@placeholder='Email']"),email);
+        type(By.xpath("//input[@placeholder='Password']"),password);
 
-
-//    WebElement inputEmail = wd.findElement(By.xpath("//input[@placeholder='Email']"));
-//    inputEmail.click();
-//    inputEmail.clear();
-//    inputEmail.sendKeys(email);
+//
+//        WebElement inputEmail = wd.findElement(By.xpath("//input[@placeholder='Email']"));
+//        inputEmail.click();
+//        inputEmail.clear();
+//        inputEmail.sendKeys(email);
 //
 //
 //
-//    WebElement inputPassword = wd.findElement(By.xpath("//input[@placeholder='Password']"));
-//    inputPassword.click();
-//    inputPassword.clear();
-//    inputPassword.sendKeys(password);
+//        WebElement inputPassword = wd.findElement(By.xpath("//input[@placeholder='Password']"));
+//        inputPassword.click();
+//        inputPassword.clear();
+//        inputPassword.sendKeys(password);
 
     }
-
     public void fillLoginRegistrationForm(User user) {
         type(By.xpath("//input[@placeholder='Email']"), user.getEmail());
         type(By.xpath("//input[@placeholder='Password']"), user.getPassword());
     }
 
-
-    public void submitLogin() {
-
+    public void submitLogin(){
         WebElement loginButton = wd.findElement(By.xpath("//*[text()=' Login']"));
         loginButton.click();
-
     }
 
     public boolean isAlertPresent() {
         Alert alert = wd.switchTo().alert();
-        if (alert == null) {
+        if (alert==null){
             return false;
 
-        } else {
+        }else {
             return true;
         }
-
-
     }
 
-    public boolean isErroeWrongFormat() {
+    public boolean isErrorWrongFormat() {
         Alert alert = wd.switchTo().alert();
-        String errorText = alert.getText();
+        String errorText =  alert.getText();
         System.out.println(errorText);
-        // click  Ok
+
+        // click Ok
         alert.accept();
-        //click cancel
-        // alert.dismiss();
-        //type
-        // alert.sendKeys("helllo");
+//        // click Cancel
+//        alert.dismiss();
+//        // type text
+//        alert.sendKeys("Hello");
+
+
         return errorText.contains("Wrong email or password format");
 
     }
 
     public void submitRegistration() {
-        WebElement regButton = wd.findElement(By.xpath("//*[text()=' Registration']"));
-        regButton.click();
+        click(By.xpath("//button[2]"));
     }
 
-    public boolean isNotContactsHere() {
-
+    public boolean isNoContactsHereDisplayed() {
+        // return wd.findElement(By.cssSelector("div.contact-page_message__2qafk>h1")).getText().contains("No Contacts here!");
         return new WebDriverWait(wd, Duration.ofSeconds(5))
                 .until(ExpectedConditions
-                        .textToBePresentInElement(wd.findElement(By.cssSelector("div.contact-page_message__2qafk>h1")), "No Contacts here!"));
-
+                        .textToBePresentInElement(wd.findElement(By.cssSelector("div.contact-page_message__2qafk>h1")),"No Contacts here!"));
     }
-
 
     public boolean isAlertWithErrorPresent(String message) {
         Alert alert = new WebDriverWait(wd, Duration.ofSeconds(5))
@@ -120,11 +112,12 @@ public class HelperUser extends HelperBase {
     }
 
     public void login(User user) {
-        openLpginRegform();
+        openLoginRegistrationForm();
         fillLoginRegistrationForm(user);
         submitLogin();
-
     }
+
+
 }
 
 
